@@ -1,6 +1,6 @@
 /*
  * This file is part of OpenCorsairLink.
- * Copyright (C) 2017-2019  Sean Nelson <audiohacked@gmail.com>
+ * Copyright (C) 2017-2020  Sean Nelson <audiohacked@gmail.com>
 
  * OpenCorsairLink is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,7 +27,9 @@ struct corsair_device_scan
 
     /** libusb device structures */
     struct libusb_device_handle* handle;
-} scanlist[10];
+};
+
+extern struct corsair_device_scan scanlist[10];
 
 int
 corsairlink_handle_close( struct libusb_device_handle* handle );

@@ -1,6 +1,6 @@
 /*
  * This file is part of OpenCorsairLink.
- * Copyright (C) 2017-2019  Sean Nelson <audiohacked@gmail.com>
+ * Copyright (C) 2017-2020  Sean Nelson <audiohacked@gmail.com>
 
  * OpenCorsairLink is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ convert_bytes_double( uint16_t v16 )
 
 int
 corsairlink_rmi_device_id(
-    struct corsair_device_info* dev, struct libusb_device_handle* handle, uint8_t* device_id )
+    struct corsair_device_info* dev, struct libusb_device_handle* handle, uint16_t* device_id )
 {
     // memset(device_id, 0x00, 1);
     ( *device_id ) = 0xFF;

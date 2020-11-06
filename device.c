@@ -1,6 +1,6 @@
 /*
  * This file is part of OpenCorsairLink.
- * Copyright (C) 2017-2019  Sean Nelson <audiohacked@gmail.com>
+ * Copyright (C) 2017-2020  Sean Nelson <audiohacked@gmail.com>
 
  * OpenCorsairLink is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -268,6 +268,19 @@ struct corsair_device_info corsairlink_devices[] = {
         .read_endpoint = 0x01 | LIBUSB_ENDPOINT_IN,
         .write_endpoint = 0x02 | LIBUSB_ENDPOINT_OUT,
         .driver = &corsairlink_driver_commanderpro,
+        .lowlevel = &corsairlink_lowlevel_commanderpro,
+        .led_control_count = 2,
+        .fan_control_count = 6,
+        .pump_index = 0,
+    },
+    {
+        .vendor_id = 0x1b1c,
+        .product_id = 0x1d00,
+        .device_id = 0xFF,
+        .name = "Obsidian 1000D Commander Pro",
+        .read_endpoint = 0x01 | LIBUSB_ENDPOINT_IN,
+        .write_endpoint = 0x02 | LIBUSB_ENDPOINT_OUT,
+        .driver = &corsairlink_driver_commanderpro,
         .led_control_count = 2,
         .fan_control_count = 6,
         .pump_index = 0,
@@ -334,6 +347,32 @@ struct corsair_device_info corsairlink_devices[] = {
         .driver = &corsairlink_driver_asetekpro,
         .lowlevel = &corsairlink_lowlevel_asetekpro,
         .led_control_count = 1,
+        .fan_control_count = 2,
+        .pump_index = 0,
+    },
+    {
+        .vendor_id = 0x1b1c,
+        .product_id = 0x0c17,
+        .device_id = 0xFF,
+        .name = "H115i Platinum",
+        .read_endpoint = 0x01 | LIBUSB_ENDPOINT_IN,
+        .write_endpoint = 0x01 | LIBUSB_ENDPOINT_OUT,
+        .driver = &corsairlink_driver_platinum,
+        .lowlevel = &corsairlink_lowlevel_platinum,
+        .led_control_count = 3,
+        .fan_control_count = 2,
+        .pump_index = 0,
+    },
+    {
+        .vendor_id = 0x1b1c,
+        .product_id = 0x0c18,
+        .device_id = 0xFF,
+        .name = "H100i Platinum",
+        .read_endpoint = 0x01 | LIBUSB_ENDPOINT_IN,
+        .write_endpoint = 0x01 | LIBUSB_ENDPOINT_OUT,
+        .driver = &corsairlink_driver_platinum,
+        .lowlevel = &corsairlink_lowlevel_platinum,
+        .led_control_count = 3,
         .fan_control_count = 2,
         .pump_index = 0,
     },

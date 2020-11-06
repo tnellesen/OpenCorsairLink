@@ -1,6 +1,6 @@
 /*
  * This file is part of OpenCorsairLink.
- * Copyright (C) 2017-2019  Sean Nelson <audiohacked@gmail.com>
+ * Copyright (C) 2017-2020  Sean Nelson <audiohacked@gmail.com>
 
  * OpenCorsairLink is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,6 +49,12 @@ hydro_asetekpro_settings(
 
 int
 hydro_coolit_settings(
+    struct corsair_device_scan scanned_device,
+    struct option_flags flags,
+    struct option_parse_return settings );
+
+int
+hydro_platinum_settings(
     struct corsair_device_scan scanned_device,
     struct option_flags flags,
     struct option_parse_return settings );
@@ -116,6 +122,10 @@ main( int argc, char* argv[] )
             else if ( scanlist[device_number].device->driver == &corsairlink_driver_coolit )
             {
                 hydro_coolit_settings( scanlist[device_number], flags, settings );
+            }
+            else if ( scanlist[device_number].device->driver == &corsairlink_driver_platinum )
+            {
+                hydro_platinum_settings( scanlist[device_number], flags, settings );
             }
         }
     }

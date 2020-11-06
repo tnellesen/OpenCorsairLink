@@ -1,6 +1,6 @@
 /*
  * This file is part of OpenCorsairLink.
- * Copyright (C) 2017-2019  Sean Nelson <audiohacked@gmail.com>
+ * Copyright (C) 2017-2020  Sean Nelson <audiohacked@gmail.com>
 
  * OpenCorsairLink is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@ extern struct corsair_lowlevel_driver corsairlink_lowlevel_asetekpro;
 extern struct corsair_lowlevel_driver corsairlink_lowlevel_commanderpro;
 extern struct corsair_lowlevel_driver corsairlink_lowlevel_dongle;
 extern struct corsair_lowlevel_driver corsairlink_lowlevel_coolit;
+extern struct corsair_lowlevel_driver corsairlink_lowlevel_platinum;
 extern struct corsair_lowlevel_driver corsairlink_lowlevel_rmi;
 
 struct corsair_device_driver
@@ -59,7 +60,7 @@ struct corsair_device_driver
         uint8_t name_size );
 
     int ( *device_id )(
-        struct corsair_device_info* dev, struct libusb_device_handle* handle, uint8_t* device_id );
+        struct corsair_device_info* dev, struct libusb_device_handle* handle, uint16_t* device_id );
 
     int ( *fw_version )(
         struct corsair_device_info* dev,
@@ -285,8 +286,9 @@ struct corsair_device_driver
 extern struct corsair_device_driver corsairlink_driver_asetek;
 extern struct corsair_device_driver corsairlink_driver_asetekpro;
 extern struct corsair_device_driver corsairlink_driver_commanderpro;
-extern struct corsair_device_driver corsairlink_driver_dongle;
 extern struct corsair_device_driver corsairlink_driver_coolit;
+extern struct corsair_device_driver corsairlink_driver_dongle;
+extern struct corsair_device_driver corsairlink_driver_platinum;
 extern struct corsair_device_driver corsairlink_driver_rmi;
 
 #endif
