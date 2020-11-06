@@ -44,7 +44,8 @@ struct corsair_device_driver corsairlink_driver_commanderpro = {
         },
     .led =
         {
-            .static_color = corsairlink_unsupported_led,
+            .init = corsairlink_commanderpro_init_led,
+            .static_color = corsairlink_commanderpro_set_led_rgb_values,
             .blink = corsairlink_unsupported_led,
             .color_pulse = corsairlink_unsupported_led,
             .color_shift = corsairlink_unsupported_led,

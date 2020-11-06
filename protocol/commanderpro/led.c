@@ -74,10 +74,72 @@ int corsairlink_commanderpro_set_led_rgb_colour(
     return rr;
 }
 
-int corsairlink_commanderpro_set_led_rgb_values(
+int corsairlink_commanderpro_init_led(
     struct corsair_device_info* dev,
     struct libusb_device_handle* handle,
     struct led_control *ctrl )
+{
+    int rr;
+    int ii;
+    uint8_t response[16];
+    uint8_t commands[64];
+    
+    uint8_t types[7];
+    uint8_t devices[7];
+    uint8_t content1[7];
+    uint8_t content2[7];
+
+    types[0] = 0x37;
+    types[1] = 0x34;
+    types[2] = 0x39;
+    types[3] = 0x3B;
+    types[4] = 0x38;
+    types[5] = 0x35;
+    types[6] = 0x33;
+
+    for (ii = 0; ii < 6; ii++) devices[ii] = 0x01;
+    devices[6] = 0xFF;
+
+    content1[0] = 0x00;
+    content1[1] = 0x00;
+    content1[2] = 0x64;
+    content1[3] = 0x01;
+    content1[4] = 0x01;
+    content1[5] = 0x00;
+    content1[6] = 0x00;
+
+    for (ii = 0; ii < 7; ii++) {
+        if (ii == 5) {
+            content2[ii] = 0x10;
+        } else {
+            content2[ii] = 0x00;
+        }
+    }
+
+    for (ii = 0; ii < 7; ii++) {
+        memset( response, 0, sizeof( response ) );
+        memset( commands, 0, sizeof( commands ) );
+
+        commands[0] = types[ii];
+        commands[1] = devices[ii];
+        commands[2] = content1[ii];
+        commands[3] = content2[ii];
+
+        rr = dev->lowlevel->write( handle, dev->write_endpoint, commands, 64 );
+        rr = dev->lowlevel->read( handle, dev->read_endpoint, response, 16 );
+
+        dump_packet( commands, sizeof( commands ) );
+        dump_packet( response, sizeof( response ) );
+
+    }
+    return rr;
+}
+
+int corsairlink_commanderpro_start_led_rgb(
+    struct corsair_device_info* dev,
+    struct libusb_device_handle* handle,
+    uint8_t device, 
+    uint8_t channel) 
 {
     int rr;
     uint8_t response[16];
@@ -85,13 +147,86 @@ int corsairlink_commanderpro_set_led_rgb_values(
     memset( response, 0, sizeof( response ) );
     memset( commands, 0, sizeof( commands ) );
 
-    commands[0] = 0x32;
+    commands[0] = 0x38;
+    commands[1] = device;
+    commands[2] = channel;
 
     rr = dev->lowlevel->write( handle, dev->write_endpoint, commands, 64 );
     rr = dev->lowlevel->read( handle, dev->read_endpoint, response, 16 );
 
     dump_packet( commands, sizeof( commands ) );
     dump_packet( response, sizeof( response ) );
+    return rr;
+}
+
+int corsairlink_commanderpro_commit_led_rgb(
+    struct corsair_device_info* dev,
+    struct libusb_device_handle* handle) 
+{
+    int rr;
+    uint8_t response[16];
+    uint8_t commands[64];
+    memset( response, 0, sizeof( response ) );
+    memset( commands, 0, sizeof( commands ) );
+
+    commands[0] = 0x33;
+    commands[1] = 0xFF;
+
+    rr = dev->lowlevel->write( handle, dev->write_endpoint, commands, 64 );
+    rr = dev->lowlevel->read( handle, dev->read_endpoint, response, 16 );
+
+    dump_packet( commands, sizeof( commands ) );
+    dump_packet( response, sizeof( response ) );
+    return rr;
+}
+
+int corsairlink_commanderpro_set_led_rgb_values(
+    struct corsair_device_info* dev,
+    struct libusb_device_handle* handle,
+    struct led_control *ctrl )
+{
+    int rr;
+    int col;
+    int ii;
+    uint8_t response[16];
+    uint8_t commands[64];
+    uint8_t device;
+    uint8_t channel;
+
+    device = 0x01;
+    channel = 0x02;
+
+    corsairlink_commanderpro_start_led_rgb(dev, handle, device, channel);
+
+    for (col = 0; col < 3; col++) {
+        memset( response, 0, sizeof( response ) );
+        memset( commands, 0, sizeof( commands ) );
+
+        commands[0] = 0x32;
+        commands[1] = device;
+        commands[2] = 0x00;
+        commands[3] = 0x10;
+        commands[4] = (uint8_t) col;
+
+        for (ii = 0; ii < 16; ii++) {
+            if (col == 0) {
+                commands[5+ii] = ctrl->led_colors[ii].red;
+            } else if (col == 1) {
+                commands[5+ii] = ctrl->led_colors[ii].green;
+            } else {
+                commands[5+ii] = ctrl->led_colors[ii].blue;
+            }
+        }
+
+        rr = dev->lowlevel->write( handle, dev->write_endpoint, commands, 64 );
+        rr = dev->lowlevel->read( handle, dev->read_endpoint, response, 16 );
+
+        dump_packet( commands, sizeof( commands ) );
+        dump_packet( response, sizeof( response ) );
+    }
+
+    corsairlink_commanderpro_commit_led_rgb(dev, handle);
+
     return rr;
 }
 

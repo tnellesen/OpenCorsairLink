@@ -149,6 +149,11 @@ commanderpro_settings(
             msg_debug( "Setting LED STATIC\n" );
             if ( dev->driver->led.static_color != NULL )
             {
+                if (flags.init_led == 1) {
+                    msg_debug( "Initializing LED\n" );
+                rr = dev->driver->led.init( dev, handle, &settings.led_ctrl );
+                }
+                msg_debug( "Setting LED RGB Values\n" );
                 rr = dev->driver->led.static_color( dev, handle, &settings.led_ctrl );
             }
             break;

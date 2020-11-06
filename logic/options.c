@@ -36,6 +36,7 @@ options_parse(
 {
     int opt, returnCode = 0, option_index = 0;
     char *subopts, *value;
+    int test;
 
     memset( settings, 0, sizeof( struct option_parse_return ) );
     memset( flags, 0, sizeof( struct option_flags ) );
@@ -43,9 +44,11 @@ options_parse(
     // fan_control_init( &settings->fan_ctrl );
     // led_control_init( &settings->led_ctrl );
     // pump_control_init( &settings->pump_ctrl );
+    test = 0;
 
     while ( ( opt = getopt_long( argc, argv, "", long_options, &option_index ) ) != EOF )
     {
+        test++;
         switch ( opt )
         {
         case OPTION_VERSION: /* program version */
@@ -58,6 +61,9 @@ options_parse(
         case OPTION_DUMP:
             verbose++;
             break;
+
+        case OPTION_INIT_LED:
+            flags->init_led = 1;
 
         case OPTION_MACHINE:
             verbose = MSG_MACHINE;

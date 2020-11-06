@@ -5,3 +5,10 @@
 out
 gen
 build
+.Rproj.user
+*.r
+.RData
+.Rhistory
+OpenCorsairLink.Rproj
+config
+rain.sh

@@ -143,6 +143,19 @@ corsairlink_commanderpro_get_fan_detect_type(
     struct libusb_device_handle* handle,
     struct fan_control* ctrl );
 
+/* Led */
+int
+corsairlink_commanderpro_init_led(
+    struct corsair_device_info* dev,
+    struct libusb_device_handle* handle,
+    struct led_control *ctrl );
+
+int
+corsairlink_commanderpro_set_led_rgb_values(
+    struct corsair_device_info* dev,
+    struct libusb_device_handle* handle,
+    struct led_control *ctrl );
+
 /* Temperature */
 int
 corsairlink_commanderpro_tempsensorscount(

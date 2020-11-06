@@ -83,6 +83,11 @@ struct corsair_device_driver
 
     struct led_functions
     {
+        int ( *init )(
+            struct corsair_device_info* dev,
+            struct libusb_device_handle* handle,
+            struct led_control* ctrl );
+
         int ( *static_color )(
             struct corsair_device_info* dev,
             struct libusb_device_handle* handle,

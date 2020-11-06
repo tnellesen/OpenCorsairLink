@@ -83,7 +83,7 @@ led_suboptions_parse( char* subopts, struct led_control* settings )
             token = strtok( value, ":" );
             while ( token != NULL )
             {
-                if ( ii == 7 )
+                if ( ii == 16 )
                     break;
                 msg_debug( "Found Color %d: %s\n", ii, token );
                 sscanf(

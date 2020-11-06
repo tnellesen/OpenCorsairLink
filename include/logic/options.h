@@ -67,6 +67,7 @@ enum motor_modes {
 struct option_flags {
   // flags
   // unsigned int debug_messages:1;
+  unsigned int init_led : 1;
   unsigned int set_led : 1;
   unsigned int set_temperature : 1;
   unsigned int set_fan : 1;
@@ -76,13 +77,14 @@ struct option_flags {
 struct led_control {
   uint8_t channel;
   enum led_modes mode;
-  struct color led_colors[7];
+  struct color led_colors[16];
   uint16_t temperatures[3];
   uint8_t speed;
   uint8_t count;
   uint8_t led_type; // commanderpro
   uint8_t direction; // commanderpro
   uint8_t change_style; // commanderpro
+  uint8_t initialized;
 };
 
 struct fan_control {
@@ -126,6 +128,7 @@ enum {
   OPTION_DEBUG,
   OPTION_DUMP,
   OPTION_MACHINE,
+  OPTION_INIT_LED,
   OPTION_DEVICE,
   OPTION_FAN,
   OPTION_LED,
@@ -138,6 +141,7 @@ static struct option long_options[] = {
     {"debug", no_argument, 0, OPTION_DEBUG},
     {"dump", no_argument, 0, OPTION_DUMP},
     {"machine", no_argument, 0, OPTION_MACHINE},
+    {"init_led", no_argument, 0, OPTION_INIT_LED},
     {"device", required_argument, 0, OPTION_DEVICE},
     {"led", required_argument, 0, OPTION_LED},
     {"fan", required_argument, 0, OPTION_FAN},
